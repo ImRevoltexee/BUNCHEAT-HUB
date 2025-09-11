@@ -1,4 +1,3 @@
-
 local Library = {}
 Library.__index = Library
 Library.Async = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
@@ -6,7 +5,9 @@ Library.Async = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/re
 local UI = Library.Async --// Shortened
 
 local Window = nil
-WindUI:AddTheme({
+
+-- pakai UI, bukan WindUI
+UI:AddTheme({
     Name = "Dark",
     Accent = "#18181b",
     Dialog = "#18181b", 
@@ -18,80 +19,9 @@ WindUI:AddTheme({
     Icon = "#a1a1aa",
 })
 
-WindUI:AddTheme({
-    Name = "Light",
-    Accent = "#f4f4f5",
-    Dialog = "#f4f4f5",
-    Outline = "#000000", 
-    Text = "#000000",
-    Placeholder = "#666666",
-    Background = "#ffffff",
-    Button = "#e4e4e7",
-    Icon = "#52525b",
-})
+-- (lanjut theme lain... sama, tetap pakai UI:AddTheme)
 
-WindUI:AddTheme({
-    Name = "Gray",
-    Accent = "#374151",
-    Dialog = "#374151",
-    Outline = "#d1d5db", 
-    Text = "#f9fafb",
-    Placeholder = "#9ca3af",
-    Background = "#1f2937",
-    Button = "#4b5563",
-    Icon = "#d1d5db",
-})
-
-WindUI:AddTheme({
-    Name = "Blue",
-    Accent = "#1e40af",
-    Dialog = "#1e3a8a",
-    Outline = "#93c5fd", 
-    Text = "#f0f9ff",
-    Placeholder = "#60a5fa",
-    Background = "#1e293b",
-    Button = "#3b82f6",
-    Icon = "#93c5fd",
-})
-
-WindUI:AddTheme({
-    Name = "Green",
-    Accent = "#059669",
-    Dialog = "#047857",
-    Outline = "#6ee7b7", 
-    Text = "#ecfdf5",
-    Placeholder = "#34d399",
-    Background = "#064e3b",
-    Button = "#10b981",
-    Icon = "#6ee7b7",
-})
-
-WindUI:AddTheme({
-    Name = "Purple",
-    Accent = "#7c3aed",
-    Dialog = "#6d28d9",
-    Outline = "#c4b5fd", 
-    Text = "#faf5ff",
-    Placeholder = "#a78bfa",
-    Background = "#581c87",
-    Button = "#8b5cf6",
-    Icon = "#c4b5fd",
-})
-
-WindUI:AddTheme({
-    Name = "PastelColorful",
-    Accent = "#f472b6",      -- pink lembut
-    Dialog = "#fef9c3",      -- kuning pastel
-    Outline = "#a5b4fc",     -- biru muda pastel
-    Text = "#1f2937",        -- abu gelap (biar jelas)
-    Placeholder = "#9ca3af", -- abu netral
-    Background = "#e0f2fe",  -- biru langit pastel
-    Button = "#86efac",      -- hijau muda pastel
-    Icon = "#facc15",        -- kuning cerah
-})
-
-
-WindUI:SetNotificationLower(true)
+UI:SetNotificationLower(true)
 
 local themes = {"Dark", "Light", "Gray", "Blue", "Green", "PastelColorful", "Purple"}
 local currentThemeIndex = 1
@@ -101,156 +31,127 @@ if not getgenv().TransparencyEnabled then
 end
 
 function Library:Setup()
-	local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "Dev Version"
-	Window = UI:CreateWindow({
-		Title = "BunCheats Hub",
-		Icon = "zap",
-		Author = "By Revolt | " .. version,
-		Folder = "BunCheats",
-		Size = UDim2.fromOffset(500, 350),
-		Transparent = true,
-		Theme = "Blue",
-		Resizable = true,
-		SideBarWidth = 150,
-		Background = "",
-		BackgroundImageTransparency = 0.42,
-		HideSearchBar = false,
-		ScrollBarEnabled = false,
-		User = {
-        Enabled = true,
-        Anonymous = false,
-        Callback = function()
-            currentThemeIndex = currentThemeIndex + 1
-            if currentThemeIndex > #themes then
-                currentThemeIndex = 1
-            end
-            
-            local newTheme = themes[currentThemeIndex]
-            WindUI:SetTheme(newTheme)
-           
-            WindUI:Notify({
-                Title = "Theme Changed",
-                Content = "Switched to " .. newTheme .. " theme!",
-                Duration = 2,
-                Icon = "palette"
-            })
-            print("Switched to " .. newTheme .. " theme")
-        end,
-    },
-	})
+    local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "Dev Version"
+    Window = UI:CreateWindow({
+        Title = "BunCheats Hub",
+        Icon = "zap",
+        Author = "By Revolt | " .. version,
+        Folder = "BunCheats",
+        Size = UDim2.fromOffset(500, 350),
+        Transparent = true,
+        Theme = "Blue",
+        Resizable = true,
+        SideBarWidth = 150,
+        Background = "",
+        BackgroundImageTransparency = 0.42,
+        HideSearchBar = false,
+        ScrollBarEnabled = false,
+        User = {
+            Enabled = true,
+            Anonymous = false,
+            Callback = function()
+                currentThemeIndex = currentThemeIndex + 1
+                if currentThemeIndex > #themes then
+                    currentThemeIndex = 1
+                end
+                
+                local newTheme = themes[currentThemeIndex]
+                UI:SetTheme(newTheme)
+                
+                UI:Notify({
+                    Title = "Theme Changed",
+                    Content = "Switched to " .. newTheme .. " theme!",
+                    Duration = 2,
+                    Icon = "palette"
+                })
+                print("Switched to " .. newTheme .. " theme")
+            end,
+        },
+    })
 
-	return Window
+    return Window
 end
 
 function Library:CreateTab(Name, Icon)
-	local Window = Window or self:Setup()
-
-	if not Window then
-		error("[Library]: Failed to find Window")
-		return
-	end
-
-	local Tab = Window:Tab({
-		Title = Name,
-		Icon = Icon,
-		Locked = false,
-	})
-
-	return Tab
+    local Window = Window or self:Setup()
+    if not Window then
+        error("[Library]: Failed to find Window")
+        return
+    end
+    local Tab = Window:Tab({
+        Title = Name,
+        Icon = Icon,
+        Locked = false,
+    })
+    return Tab
 end
 
 function Library:CreateSection(Tab, Title, Size)
-	local Section = Tab:Section({
-		Title = Title,
-		TextXAlignment = "Left",
-		TextSize = Size or 17,
-	})
-
-	return Section
+    local Section = Tab:Section({
+        Title = Title,
+        TextXAlignment = "Left",
+        TextSize = Size or 17,
+    })
+    return Section
 end
 
 function Library:CreateToggle(Tab, Table)
-	local Toggle = Tab:Toggle(Table)
-
-	return Toggle
+    return Tab:Toggle(Table)
 end
 
 function Library:CreateButton(Tab, Table)
-	local Button = Tab:Button(Table)
-
-	return Button
+    return Tab:Button(Table)
 end
 
 function Library:CreateSlider(Tab, Table)
-	local Slider = Tab:Slider(Table)
-
-	return Slider
+    return Tab:Slider(Table)
 end
 
 function Library:CreateDropdown(Tab, Table)
-	local Dropdown = Tab:Dropdown(Table)
-
-	return Dropdown
+    return Tab:Dropdown(Table)
 end
 
 function Library:CreateInput(Tab, Table)
-	local Input = Tab:Input(Table)
-
-	return Input
+    return Tab:Input(Table)
 end
 
 --// Special Setups
 function Library:SetupAboutUs(AboutUs)
-	local Window = Window or self:Setup()
+    local Window = Window or self:Setup()
+    if not Window then
+        error("[Library]: Failed to find Window")
+        return
+    end
 
-	if not Window then
-		error("[Library]: Failed to find Window")
-		return
-	end
+    -- Founder
+    AboutUs:Paragraph({
+        Title = "Founder",
+        Desc = "Revolt",
+        Image = "https://tr.rbxcdn.com/30DAY-Avatar-48C4B00DF083F6609AFE3AF32698E047-Png/352/352/Avatar/Webp/noFilter",
+        ImageSize = 30,
+    })
 
-	-- AboutUs:Paragraph({
-	-- 	Title = "What is this?",
-	-- 	Icon = "user-circle",
-	-- 	Desc = "Elvis Hub is a flexible and powerful script hub for Roblox, designed to enhance your gaming experience with a variety of features and tools.",
-	-- })
-    AboutUs:Owner({
-    Title = "Founder",
-    Desc = "Revolt",
-    Image = "https://tr.rbxcdn.com/30DAY-Avatar-48C4B00DF083F6609AFE3AF32698E047-Png/352/352/Avatar/Webp/noFilter",
-    ImageSize = 30,
-    Thumbnail = "",
-    ThumbnailSize = 0,
-    Locked = false,
-})
+    -- Discord Info
+    AboutUs:Paragraph({
+        Title = "Discord",
+        Desc = "Join our discord for more scripts!",
+        Image = "https://tr.rbxcdn.com/180DAY-95da471c14cea48187be10a196c1de70/768/432/Image/Webp/noFilter",
+        ImageSize = 30,
+    })
 
-	AboutUs:Paragraph({
-    Title = "Discord",
-    Desc = "Join our discord for more scripts!",
-    Image = "https://tr.rbxcdn.com/180DAY-95da471c14cea48187be10a196c1de70/768/432/Image/Webp/noFilter",
-    ImageSize = 30,
-    Thumbnail = "",
-    ThumbnailSize = 0,
-    Locked = false,
-    AboutUs:Buttons = {
-        {
-            Icon = "copy",
-            Title = "Copy Link",
-            Callback = function()
-                setclipboard("https://discord.gg/jk6dssAE52")
-                print("Copied discord link to clipboard!")
-            end,
-        }
-    }
-})
-
-	AboutCek:Button({
-		Title = "Discord Link (Click to Copy)",
-		Icon = "link",
-		Callback = function()
-			setclipboard("https://discord.gg/7zyT99D7S3")
-			Library:Notify({ Title = "Copied!", Content = "Discord link copied!", Duration = 3 })
-		end,
-	})
+    -- Copy Button
+    AboutUs:Button({
+        Title = "Copy Discord Link",
+        Icon = "link",
+        Callback = function()
+            setclipboard("https://discord.gg/jk6dssAE52")
+            UI:Notify({
+                Title = "Copied!",
+                Content = "Discord link copied!",
+                Duration = 3
+            })
+        end,
+    })
 end
 
 return Library

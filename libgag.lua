@@ -192,7 +192,7 @@ function Library:SetupAboutUs(AboutUs)
         return
     end
 
-    AboutUs:Owner({
+    AboutUs:Paragraph({
         Title = "Founder",
         Desc = "Revolt",
         Image = "https://tr.rbxcdn.com/30DAY-Avatar-48C4B00DF083F6609AFE3AF32698E047-Png/352/352/Avatar/Webp/noFilter",

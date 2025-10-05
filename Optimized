@@ -993,7 +993,7 @@ task.spawn(function()
 end)
 
 updateLoading("Finalizing...", 0.95)
-
+updateLoading:Destroy()
 -- Load remaining features in background
 task.spawn(function()
 	task.wait(0.2)

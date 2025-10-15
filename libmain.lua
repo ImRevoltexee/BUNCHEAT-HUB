@@ -8,6 +8,125 @@ Library.Async = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/re
 
 local UI = Library.Async --// Shortened
 local Window = nil
+-- inside libmain.lua
+local UIS = game:GetService("UserInputService")
+function Library:CreateSlider(Tab, Opt)
+    -- Opt = {Title, Desc?, Step, Value={Min,Max,Default}, Callback}
+    local step = tonumber(Opt.Step or 1)
+    local vmin = Opt.Value.Min or 0
+    local vmax = Opt.Value.Max or 100
+    local vcur = math.clamp(Opt.Value.Default or vmin, vmin, vmax)
+    local cb   = type(Opt.Callback)=="function" and Opt.Callback or function() end
+
+    local Row = Library:_MakeRow(Tab, Opt.Title or "Slider", Opt.Desc) -- gunakan builder row milikmu
+    local Bar = Instance.new("Frame")
+    Bar.Name = "SliderBar"
+    Bar.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    Bar.BorderSizePixel = 0
+    Bar.Size = UDim2.new(1, -120, 0, 6)
+    Bar.Position = UDim2.new(0, 120, 0.5, -3)
+    Bar.Parent = Row
+
+    local Fill = Instance.new("Frame")
+    Fill.Name = "Fill"
+    Fill.BackgroundColor3 = Color3.fromRGB(0,170,255)
+    Fill.BorderSizePixel = 0
+    Fill.Size = UDim2.new(0, 0, 1, 0)
+    Fill.Parent = Bar
+
+    local Knob = Instance.new("TextButton")
+    Knob.Name = "Knob"
+    Knob.Text = ""
+    Knob.AutoButtonColor = false
+    Knob.BackgroundColor3 = Color3.fromRGB(240,240,240)
+    Knob.BorderSizePixel = 0
+    Knob.Size = UDim2.new(0, 12, 0, 12)
+    Knob.AnchorPoint = Vector2.new(0.5,0.5)
+    Knob.Position = UDim2.new(0, 0, 0.5, 0)
+    Knob.Parent = Bar
+
+    local Val = Instance.new("TextLabel")
+    Val.Name = "ValueLabel"
+    Val.BackgroundTransparency = 1
+    Val.TextColor3 = Color3.fromRGB(220,220,220)
+    Val.Font = Enum.Font.GothamSemibold
+    Val.TextSize = 14
+    Val.TextXAlignment = Enum.TextXAlignment.Right
+    Val.Size = UDim2.new(0, 100, 1, 0)
+    Val.Position = UDim2.new(1, 10, 0, 0)
+    Val.Parent = Row
+
+    local dragging = false
+    local function round(x)
+        local n = math.floor((x - vmin)/step + 0.5)*step + vmin
+        return math.clamp(n, vmin, vmax)
+    end
+    local function setVisual(val)
+        local alpha = (val - vmin) / (vmax - vmin)
+        Fill.Size = UDim2.new(alpha, 0, 1, 0)
+        Knob.Position = UDim2.new(alpha, 0, 0.5, 0)
+        Val.Text = tostring(val)
+    end
+    local function setValueFromX(px)
+        local absPos = Bar.AbsolutePosition.X
+        local absSize = Bar.AbsoluteSize.X
+        local alpha = math.clamp((px - absPos)/absSize, 0, 1)
+        local val = round(vmin + alpha*(vmax - vmin))
+        if val ~= vcur then
+            vcur = val
+            setVisual(vcur)
+            task.spawn(cb, vcur)
+        else
+            setVisual(vcur)
+        end
+    end
+
+    setVisual(vcur)
+
+    Knob.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = true
+        end
+    end)
+    UIS.InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            dragging = false
+        end
+    end)
+    UIS.InputChanged:Connect(function(input)
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+            setValueFromX(input.Position.X)
+        end
+    end)
+    Bar.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            setValueFromX(input.Position.X)
+            dragging = true
+        end
+    end)
+
+    -- API object
+    local obj = {}
+    function obj:Set(val)
+        vcur = round(tonumber(val) or vcur)
+        setVisual(vcur)
+        task.spawn(cb, vcur)
+    end
+    function obj:Get() return vcur end
+    function obj:Refresh(range)
+        if range and range.Min and range.Max then
+            vmin = range.Min; vmax = range.Max
+            vcur = math.clamp(vcur, vmin, vmax)
+            setVisual(vcur)
+        end
+    end
+    return obj
+end
+
+-- optional sugar: Tab:Slider({...})
+function Tab:Slider(opts)
+    return Library:CreateSlider(self, opts)
+end
 
 --// Custom Themes
 Library.Async:AddTheme({

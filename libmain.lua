@@ -1,6 +1,6 @@
 --// BunCheats Hub Library
 --// Founder : Revolt
---// Discord : https://discord.gg/7zyT99D7S3
+--// Discord : https://discord.gg/3wkbH4Esc
 
 local Library = {}
 Library.__index = Library
@@ -211,7 +211,7 @@ function Library:SetupAboutUs(AboutUs)
         Title = "Discord Link (Click to Copy)",
         Icon = "link",
         Callback = function()
-            setclipboard("https://discord.gg/7zyT99D7S3")
+            setclipboard("https://discord.gg/3wkbH4Esc")
             Library.Async:Notify({
                 Title = "Copied!",
                 Content = "Discord link copied!",

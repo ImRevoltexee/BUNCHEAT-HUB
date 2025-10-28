@@ -104,7 +104,7 @@ end
 
 --// Setup Window
 function Library:Setup()
-    local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "Dev Version"
+    local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "Halloween Version | Week 2"
     Window = UI:CreateWindow({
         Title = "BunCheats Hub",
         Icon = "zap",

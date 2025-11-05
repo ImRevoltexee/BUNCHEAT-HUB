@@ -121,7 +121,7 @@ function Library:Setup()
         ScrollBarEnabled = false,
         User = {
             Enabled = true,
-            Anonymous = false,
+            Anonymous = true,
             Callback = function()
                 currentThemeIndex = currentThemeIndex + 1
                 if currentThemeIndex > #themes then
@@ -193,8 +193,8 @@ function Library:SetupAboutUs(AboutUs)
 
     AboutUs:Paragraph({
         Title = "Founder",
-        Desc = "Revolt",
-        Image = "https://tr.rbxcdn.com/30DAY-Avatar-48C4B00DF083F6609AFE3AF32698E047-Png/352/352/Avatar/Webp/noFilter",
+        Desc = "Mr.Revolt",
+        Image = "https://yt3.ggpht.com/_hRKmWe9-UTBHj70uHFBehGLtpdFuaTlthf3n9QwruQKg2Pvx0VGixVRrHs2kvei4-n0x4-j=s176-c-k-c0x00ffffff-no-rj",
         ImageSize = 30,
         Locked = false,
     })

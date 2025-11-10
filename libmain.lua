@@ -1,4 +1,4 @@
---// BunCheats Hub Library
+--// Xyra - Hub Library
 --// Founder : Revolt
 --// Discord : https://discord.gg/3wkbH4Esc
 
@@ -104,12 +104,12 @@ end
 
 --// Setup Window
 function Library:Setup()
-    local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "Halloween Version"
+    local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "[UPD] Fish It! 🐟"
     Window = UI:CreateWindow({
-        Title = "BunCheats Hub",
+        Title = "Xyra - Hub",
         Icon = "zap",
         Author = "By Revolt | " .. version,
-        Folder = "BunCheats",
+        Folder = "Xyra",
         Size = UDim2.fromOffset(500, 350),
         Transparent = true,
         Theme = "Blue",

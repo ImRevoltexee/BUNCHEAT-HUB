@@ -106,7 +106,7 @@ end
 function Library:Setup()
     local version = LRM_ScriptVersion and "v" .. table.concat(LRM_ScriptVersion:split(""), ".") or "[UPD] Fish It! 🐟"
     Window = UI:CreateWindow({
-        Title = "Xyra - Hub",
+        Title = "XYRA - HUB",
         Icon = "zap",
         Author = "By Revolt | " .. version,
         Folder = "Xyra",

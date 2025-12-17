@@ -1,6 +1,6 @@
 --// Xyra - Hub Library
 --// Founder : Revolt
---// Discord : https://discord.gg/rGxFUnD2
+--// Discord : https://discord.gg/Tkn7qNhd
 local Library = {}
 Library.__index = Library
 Library.Async = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
@@ -210,7 +210,7 @@ function Library:SetupAboutUs(AboutUs)
         Title = "Discord Link (Click to Copy)",
         Icon = "link",
         Callback = function()
-            setclipboard("https://discord.gg/rGxFUnD2")
+            setclipboard("https://discord.gg/Tkn7qNhd")
             Library.Async:Notify({
                 Title = "Copied!",
                 Content = "Discord link copied!",

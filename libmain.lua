@@ -107,7 +107,7 @@ function Library:Setup()
     Window = UI:CreateWindow({
         Title = "XYRA",
         Icon = "zap",
-        Author = "Version: 1.1| " .. version,
+        Author = "Version: 1.2| " .. version,
         Folder = "Xyra",
         Size = UDim2.fromOffset(500, 350),
         Transparent = true,
